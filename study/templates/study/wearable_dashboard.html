@@ -1,0 +1,85 @@
+{% extends "study/base.html" %}
+
+{% block contextual_nav %}
+    <h5>Patient Menu</h5>
+    <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link" href="{% url 'participant_detail' participant.id %}">Manage Visits</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{% url 'wearable_dashboard' participant.id %}">Wearable Data</a></li>
+    </ul>
+    <hr>
+{% endblock %}
+
+{% block content %}
+    <h2>Wearable Data Dashboard</h2>
+    <p>For Participant: <strong>{{ participant.participant_id }}</strong></p>
+    <hr>
+    
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+        </div>
+
+    <hr class="my-4">
+
+    <h3>Data Trends (Last 24 Hours)</h3>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Heart Rate (BPM)</h5>
+                    <canvas id="heartRateChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Oxygen Saturation (SpO₂)</h5>
+                    <canvas id="spo2Chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Heart Rate Chart
+            const hrCtx = document.getElementById('heartRateChart').getContext('2d');
+            new Chart(hrCtx, {
+                type: 'line',
+                data: {
+                    labels: {{ hr_labels|safe }},
+                    datasets: [{
+                        label: 'Heart Rate',
+                        data: {{ hr_data|safe }},
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        tension: 0.1
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: false } } }
+            });
+
+            // SpO2 Chart
+            const spo2Ctx = document.getElementById('spo2Chart').getContext('2d');
+            new Chart(spo2Ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ spo2_labels|safe }},
+                    datasets: [{
+                        label: 'SpO₂ (%)',
+                        data: {{ spo2_data|safe }},
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 1,
+                        pointRadius: 2,
+                        tension: 0.1
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: false, suggestedMin: 90 } } }
+            });
+        });
+    </script>
+{% endblock %}

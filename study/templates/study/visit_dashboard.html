@@ -1,0 +1,81 @@
+{% extends "study/base.html" %}
+{% block content %}
+    <h2>Visit: {{ visit.get_visit_type_display }}</h2>
+    <p>For Participant: <strong>{{ participant.participant_id }}</strong></p>
+    <hr>
+    <h4>Select a data category to enter or view information:</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Clinical & Functional Assessments</h5>
+                    <p class="card-text">Enter data for MoCA, NTB, walk tests, etc.</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    {% if clinical_assessment and clinical_assessment.moca_score is not None %}
+                        <small class="text-success">✔ Last updated: {{ clinical_assessment.updated_at|date:"Y-m-d H:i" }}</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'clinical-functional' %}" class="btn btn-outline-success float-end">View/Edit Data</a>
+                    {% else %}
+                        <small class="text-muted">⚪ Not Completed</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'clinical-functional' %}" class="btn btn-primary float-end">Enter Data</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Biological Sample Results</h5>
+                    <p class="card-text">Enter results for plasma markers like GFAP, NfL, etc.</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    {% if biological_sample and biological_sample.gfap is not None %}
+                        <small class="text-success">✔ Last updated: {{ biological_sample.updated_at|date:"Y-m-d H:i" }}</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'biological-samples' %}" class="btn btn-outline-success float-end">View/Edit Data</a>
+                    {% else %}
+                        <small class="text-muted">⚪ Not Completed</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'biological-samples' %}" class="btn btn-primary float-end">Enter Data</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Neuroimaging Data</h5>
+                    <p class="card-text">Confirm completion of MRI and upload reports.</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    {% if neuroimaging and neuroimaging.mri_completed %}
+                        <small class="text-success">✔ Last updated: {{ neuroimaging.updated_at|date:"Y-m-d H:i" }}</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'neuroimaging' %}" class="btn btn-outline-success float-end">View/Edit Data</a>
+                    {% else %}
+                        <small class="text-muted">⚪ Not Completed</small>
+                        <a href="{% url 'visit_data_entry' participant.id visit.id 'neuroimaging' %}" class="btn btn-primary float-end">Enter Data</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Patient-Reported Questionnaires</h5>
+                    <p class="card-text">Assign and complete questionnaires like EQ-5D-5L, HADS, etc.</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    {% if questionnaires_status %}
+                        <small class="text-success">✔ Last completed: {{ questionnaires_status.completed_at|date:"Y-m-d H:i" }}</small>
+                        <a href="{% url 'visit_questionnaires' participant.id visit.id %}" class="btn btn-outline-success float-end">Manage Questionnaires</a>
+                    {% else %}
+                        <small class="text-muted">⚪ None Completed</small>
+                        <a href="{% url 'visit_questionnaires' participant.id visit.id %}" class="btn btn-primary float-end">Manage Questionnaires</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

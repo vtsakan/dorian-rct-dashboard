@@ -1,0 +1,57 @@
+{% extends "study/base.html" %}
+
+{% block content %}
+    <h2>Visit: {{ visit.get_visit_type_display }}</h2>
+    <p>For Participant: <strong>{{ participant.participant_id }}</strong></p>
+    <hr>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Assessments for this Visit
+            <a href="{% url 'visit_dashboard' participant.id visit.id %}" class="btn btn-sm btn-outline-secondary">Back to Visit Dashboard</a>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for assessment in assessments %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ assessment.questionnaire_template.name }}</strong>
+                        {% if assessment.completed_at %}
+                            <br><small class="text-muted">Completed: {{ assessment.completed_at|date:"Y-m-d H:i" }}</small>
+                        {% endif %}
+                    </div>
+                    
+                    {% if not assessment.completed_at %}
+                        <a href="{% url 'take_questionnaire' participant.id visit.id assessment.id %}" class="btn btn-primary btn-sm">Start Assessment</a>
+                    {% else %}
+                        <a href="{% url 'take_questionnaire' participant.id visit.id assessment.id %}" class="btn btn-outline-success btn-sm">View/Edit Answers</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="list-group-item">No assessments assigned to this visit.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if assignable_questionnaires %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Assign New Assessment to this Visit</h5>
+                <form action="{% url 'assign_questionnaire' participant.id visit.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <select name="questionnaire_template" class="form-select">
+                                {% for template in assignable_questionnaires %}
+                                    <option value="{{ template.id }}">{{ template.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-secondary">Assign</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

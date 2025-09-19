@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Debug Page</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        pre { background-color: #f0f0f0; padding: 15px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Template Debug Information</h1>
+    <p>This page is a raw dump of the variables from the view. If you can see this, it means your URLs and Views are working, but there is a problem with your `base.html` or template inheritance.</p>
+    
+    <hr>
+    
+    <h2>Debug Variables:</h2>
+    <pre>
+        Error Message: {{ error_message }}
+        ------------------------------------
+        Participant ID:   {{ participant_id }}
+        Participant Status: {{ participant_status }}
+        Existing Visits:  {{ existing_visit_count }}
+        Creatable Visits: {{ creatable_visit_count }}
+        Creatable List:   {{ creatable_visits_list }}
+    </pre>
+</body>
+</html>

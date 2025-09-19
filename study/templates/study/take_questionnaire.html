@@ -1,0 +1,39 @@
+{% extends "study/base.html" %}
+
+{% block content %}
+    <h2>Assessment: {{ assessment.questionnaire_template.name }}</h2>
+    <p>For Participant: <strong>{{ participant.participant_id }}</strong></p>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-4 p-3 border rounded">
+                        <p class="fw-bold">{{ field.label }}</p>
+                        
+                        {% for radio in field %}
+                            <div class="form-check">
+                                {{ radio.tag }}
+                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                        {% endfor %}
+
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <hr>
+                <button type="submit" class="btn btn-success">Submit Answers</button>
+                <a href="{% url 'participant_detail' participant.id %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

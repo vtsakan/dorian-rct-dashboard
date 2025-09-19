@@ -1,0 +1,25 @@
+{% extends "study/base.html" %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Dashboard</h2>
+        <a href="{% url 'add_participant' %}" class="btn btn-primary">Add New Participant</a>
+    </div>
+
+    <h4>Recently Added Participants</h4>
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                {% for p in participants %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ p.participant_id }}
+                        <a href="{% url 'participant_detail' p.id %}">{{ p.participant_id }}</a>
+                        <span class="badge bg-secondary rounded-pill">{{ p.get_status_display }}</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No participants have been added yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

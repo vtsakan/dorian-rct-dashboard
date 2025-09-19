@@ -1,0 +1,28 @@
+{% extends "study/base.html" %}
+
+{% block content %}
+    <h2>Add New Participant</h2>
+    <p class="text-muted">Enter the initial details for a new participant. Their status will be set to "Screening".</p>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %} {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <hr>
+                <button type="submit" class="btn btn-success">Save Participant</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

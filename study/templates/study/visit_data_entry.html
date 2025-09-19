@@ -1,0 +1,17 @@
+{% extends "study/base.html" %}
+{% block content %}
+    <h2>{{ category_name }}</h2>
+    <p>For Visit: <strong>{{ visit.get_visit_type_display }}</strong> on participant <strong>{{ participant.participant_id }}</strong></p>
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <hr>
+                <button type="submit" class="btn btn-success">Save Data</button>
+                <a href="{% url 'visit_dashboard' participant.id visit.id %}" class="btn btn-secondary">Back to Visit Dashboard</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

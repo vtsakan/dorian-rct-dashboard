@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Base Test</title>
+</head>
+<body>
+    <h1>This is the BASE template.</h1>
+    <hr>
+    {% block content %}
+        <p style="color: red;">ERROR: Content block was not replaced.</p>
+    {% endblock %}
+    <hr>
+    <h1>This is the BASE template footer.</h1>
+</body>
+</html>
