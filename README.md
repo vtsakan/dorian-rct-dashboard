@@ -1,13 +1,122 @@
-DORIAN-RCT-DashboardThis is a web-based clinical dashboard, built with Django, designed to manage the workflow of a Randomized Controlled Trial (RCT) for the DORIAN GRAY Project. The platform facilitates participant registration, visit management, and data collection for various assessments, including questionnaires and wearable device data.PrerequisitesBefore you begin, ensure you have the following installed on your system:Python (version 3.8 or higher)pip (Python's package installer)git (for cloning the repository)Installation and SetupFollow these steps to get the application running on your local machine.1. Clone the RepositoryOpen your terminal or command prompt and run the following command to clone the project:git clone [https://github.com/vtsakan/dorian-rct-dashboard.git](https://github.com/vtsakan/dorian-rct-dashboard.git)
+# DORIAN-RCT-Dashboard
+
+Web-based clinical dashboard (Django) to manage the workflow of a Randomized Controlled Trial (RCT) for the **DORIAN GRAY** project: participant registration, visit management, questionnaires, and wearable data.
+
+---
+
+## Contents
+- [Prerequisites](#prerequisites)
+- [Installation and Setup](#installation-and-setup)
+  - [1. Clone the Repository](#1-clone-the-repository)
+  - [2. Create and Activate a Virtual Environment](#2-create-and-activate-a-virtual-environment)
+  - [3. Install Dependencies](#3-install-dependencies)
+  - [4. Set Up the Database](#4-set-up-the-database)
+  - [5. Create a Superuser Account](#5-create-a-superuser-account)
+  - [6. Run the Development Server](#6-run-the-development-server)
+- [How to Test the Application](#how-to-test-the-application)
+  - [Step 1: Admin Setup](#step-1-admin-setup)
+  - [Step 2: Clinician Dashboard](#step-2-clinician-dashboard)
+  - [Step 3: Manage a Visit](#step-3-manage-a-visit)
+  - [Step 4: Complete an Assessment](#step-4-complete-an-assessment)
+  - [Step 5: Test Wearable Data](#step-5-test-wearable-data)
+
+---
+
+## Prerequisites
+- Python **3.8+**
+- `pip`
+- `git`
+
+---
+
+## Installation and Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/vtsakan/dorian-rct-dashboard.git
 cd dorian-rct-dashboard
-2. Create and Activate a Virtual EnvironmentIt is highly recommended to use a virtual environment to manage project dependencies.On macOS/Linux:python3 -m venv venv
+```
+
+### 2. Create and Activate a Virtual Environment
+**macOS/Linux**
+```bash
+python3 -m venv venv
 source venv/bin/activate
-On Windows:python -m venv venv
+```
+
+**Windows**
+```powershell
+python -m venv venv
 .\venv\Scripts\activate
-3. Install DependenciesInstall all the required Python packages using the requirements.txt file.pip install -r requirements.txt
-4. Set Up the DatabaseThese commands will create a new local SQLite database and set up all the necessary tables.python3 manage.py makemigrations
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set Up the Database
+```bash
+python3 manage.py makemigrations
 python3 manage.py migrate
-5. Create a Superuser AccountYou need an administrator account to access the Django Admin panel and set up the study.python3 manage.py createsuperuser
-Follow the prompts to create your username and password.6. Run the Development Serverpython3 manage.py runserver
-The application will now be running at https://www.google.com/search?q=http://127.0.0.1:8000/.How to Test the Application: A Step-by-Step WorkflowFollow this guide to test the complete clinical workflow from patient registration to data entry.Step 1: Admin Setup (Create a Study and Questionnaire)First, we need to set up the study and the assessment templates in the admin panel.Navigate to the admin panel: https://www.google.com/search?q=http://127.0.0.1:8000/admin/Log in with the superuser account you created.Create a Study: Go to "Studies" -> "Add study". Give it a name (e.g., "DORIAN GRAY Pilot") and a start date, then save.Create a Questionnaire Template: Go to "Questionnaire templates" -> "Add". Name it (e.g., "HADS"), and save.Add Questions: Click on your new "HADS" template. In the "Questions" section at the bottom, add a question text and order (e.g., Text: "I feel tense or 'wound up'", Order: 1). Save.Add Choices: On the main admin page, go to "Questions". Click on the question you just created. In the "Choices" section, add the possible answers and their score values (e.g., Text: "Not at all", Value: 0; Text: "Sometimes", Value: 1). Save.Step 2: Clinician Dashboard (Register a Participant)Go to the main dashboard: https://www.google.com/search?q=http://127.0.0.1:8000/You will be redirected to the admin login page. Log in.You will land on the "Patient List". Click "Add New Participant".Fill in the participant's details and select the study you created. Save.You will be redirected to the participant's detail page. Notice that their "Baseline Visit" has been automatically created.Step 3: Manage a Visit and Assign an AssessmentOn the participant's detail page, click the "Manage Visit" button next to the "Baseline Visit".You will see the tile dashboard. Click the "Manage Questionnaires" tile.On the "Assessments for this Visit" page, use the form at the bottom to select the "HADS" questionnaire and click "Assign".The page will reload, and "HADS" will now be in the list with a "Start Assessment" button.Step 4: Complete an Assessment and Enter DataClick the "Start Assessment" button.Fill out the questionnaire and click "Submit Answers".You will be returned to the assessments page. The questionnaire is now marked "Complete".Click "Back to Visit Dashboard". Notice the questionnaires tile now shows it was recently completed.Click another tile, like "Clinical & Functional Assessments". Enter some sample data and click "Save Data". You will be returned to the tile dashboard, which will now show that this category has been updated.Step 5: Test the Wearable Data DashboardOpen your terminal and stop the server (Ctrl+C).Run the custom command to generate sample data for your participant (who has an ID of 1):python3 manage.py add_wearable_data 1
-Restart the server: python3 manage.py runserver.On the participant's page, use the left sidebar to click on "Wearable Data".You will now see the summary tiles and time-series graphs populated with the sample data.
+```
+
+### 5. Create a Superuser Account
+```bash
+python3 manage.py createsuperuser
+```
+
+### 6. Run the Development Server
+```bash
+python3 manage.py runserver
+```
+
+App runs at: <http://127.0.0.1:8000/>
+
+---
+
+## How to Test the Application
+
+### Step 1: Admin Setup
+1. Open <http://127.0.0.1:8000/admin/> and log in with the superuser.
+2. **Create a Study:** *Studies → Add study* (e.g., “DORIAN GRAY Pilot”), set start date, save.
+3. **Create a Questionnaire Template:** *Questionnaire templates → Add* (e.g., “HADS”), save.
+4. **Add Questions:** Open the “HADS” template → **Questions** → add:
+   - Text: `I feel tense or 'wound up'`
+   - Order: `1`
+   - Save.
+5. **Add Choices:** From **Questions**, open the question → **Choices** → add:
+   - `Not at all` → Value `0`
+   - `Sometimes` → Value `1`
+   - Save.
+
+### Step 2: Clinician Dashboard
+1. Go to <http://127.0.0.1:8000/> (you’ll be redirected to login).
+2. **Patient List** → **Add New Participant**.
+3. Fill details, select the study, **Save**.
+4. The **Baseline Visit** is auto-created.
+
+### Step 3: Manage a Visit
+1. On the participant page, click **Manage Visit** (Baseline).
+2. In the tile dashboard, choose **Manage Questionnaires**.
+3. On **Assessments for this Visit**, select **HADS** → **Assign**.
+4. **HADS** appears with a **Start Assessment** button.
+
+### Step 4: Complete an Assessment
+1. Click **Start Assessment** for **HADS**.
+2. Fill the questionnaire → **Submit Answers**.
+3. Status becomes **Complete**.
+4. **Back to Visit Dashboard** → tile shows recent completion.
+5. Open **Clinical & Functional Assessments**, enter sample data, **Save Data**.
+
+### Step 5: Test Wearable Data
+1. Stop the server (Ctrl+C).
+2. Generate sample wearable data for participant ID `1`:
+```bash
+python3 manage.py add_wearable_data 1
+```
+3. Restart:
+```bash
+python3 manage.py runserver
+```
+4. On the participant page, open **Wearable Data** (left sidebar) to see summary tiles and time-series charts.
